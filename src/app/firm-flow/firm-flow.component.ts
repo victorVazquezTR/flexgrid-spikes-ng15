@@ -267,8 +267,10 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
         if (col && col.binding === 'fieldType') {
           const value = s.getCellData(e.row, e.col, false);
 
-          // Clear existing content
-          cell.innerHTML = '';
+          // Clear existing content safely
+          while (cell.firstChild) {
+            cell.removeChild(cell.firstChild);
+          }
 
           // Create container for text and button
           const container = document.createElement('div');
@@ -467,7 +469,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
   }
 
   closeManageDropdownDialog() {
-    console.log('closeManageDropdownDialog');
     this.isManageDropdownDialogHidden = true;
     // Return focus to the element that opened the modal
     if (this.previousActiveElement) {
