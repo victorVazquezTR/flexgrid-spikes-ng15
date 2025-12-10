@@ -56,7 +56,8 @@
     <wj-flex-grid-column header="Deactivate" binding="deactivate" [width]="'*'" />
   </wj-flex-grid>
 
-  <saf-dialog [hidden]="isManageDropdownDialogHidden" modal="true" is-alert="false" is-header="true" is-footer="true"
+  <saf-dialog [hidden]="isManageDropdownDialogHidden" (dismiss)="closeManageDropdownDialog()"
+    (cancel)="closeManageDropdownDialog()" modal="true" is-alert="false" is-header="true" is-footer="true"
     dialog-title="Manage Dropdown">
     <div class="manage-dropdown-content">
       <!-- Top buttons -->

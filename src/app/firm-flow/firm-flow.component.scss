@@ -118,38 +118,12 @@
   padding: 8px 12px;
 }
 
-// Style for Field Type cell button
+// Style for Field Type cell button (saf-button)
 ::ng-deep .wj-flexgrid .wj-cell .field-type-cell-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  color: #666;
   flex-shrink: 0;
-  width: auto;
+  margin-left: 8px;
   min-width: 32px;
   height: 32px;
-}
-
-::ng-deep .wj-flexgrid .wj-cell .field-type-cell-button:hover {
-  background-color: #f0f0f0;
-  color: #333;
-}
-
-::ng-deep .wj-flexgrid .wj-cell .field-type-cell-button:focus {
-  outline: 2px solid #4c7aa8;
-  outline-offset: 2px;
-  background-color: #e8f0f8;
-  color: #4c7aa8;
-}
-
-::ng-deep .wj-flexgrid .wj-cell .field-type-cell-button:active {
-  background-color: #d0d0d0;
 }
 
 // Style for Field Type cell container

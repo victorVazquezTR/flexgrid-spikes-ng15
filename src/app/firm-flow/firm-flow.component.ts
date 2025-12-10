@@ -287,42 +287,54 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
           textElement.style.textOverflow = 'ellipsis';
           textElement.style.whiteSpace = 'nowrap';
 
-          // Create button element
-          const button = document.createElement('button');
+          // Create saf-button element
+          const button = document.createElement('saf-button');
+          button.setAttribute('appearance', 'tertiary');
           button.className = 'field-type-cell-button';
-          // Use SVG icon for pencil/edit
-          button.innerHTML = ' <saf-icon color="background: var(--color-interactive-on-tertiary-nested, #212223);" icon-name="pen-line" appearance="solid">';
-          button.type = 'button';
           button.style.flexShrink = '0';
           button.style.marginLeft = '8px';
-          button.style.background = 'none';
-          button.style.border = 'none';
-          button.style.cursor = 'pointer';
-          button.style.padding = '4px';
-          button.style.display = 'flex';
-          button.style.alignItems = 'center';
-          button.style.justifyContent = 'center';
-          button.style.borderRadius = '4px';
-          button.style.color = '#666';
           button.setAttribute('aria-label', 'Edit field type');
+          // Ensure button is focusable and has proper role
+          button.setAttribute('tabindex', '0');
+          button.setAttribute('role', 'button');
 
-          // Add click handler to button
-          button.addEventListener('click', (event) => {
+          // Create saf-icon element for the button
+          const icon = document.createElement('saf-icon');
+          icon.setAttribute('icon-name', 'pen-line');
+          icon.setAttribute('appearance', 'solid');
+          button.appendChild(icon);
+
+          // Function to handle button activation (click or keyboard)
+          const handleButtonActivation = (event: Event) => {
             event.stopPropagation();
+            event.preventDefault();
             // Store reference to the button for focus return
             this.previousActiveElement = button;
-            // Open manage dropdown dialog when button is clicked
+            // Open manage dropdown dialog when button is activated
             this.openManageDropdownDialog();
-          });
+          };
 
-          // Add hover styles
-          button.addEventListener('mouseenter', () => {
-            button.style.backgroundColor = '#f0f0f0';
-            button.style.color = '#333';
-          });
-          button.addEventListener('mouseleave', () => {
-            button.style.backgroundColor = 'transparent';
-            button.style.color = '#666';
+          // Add click handler to button
+          button.addEventListener('click', handleButtonActivation);
+
+          // Add keyboard handler for Enter key (handle immediately)
+          button.addEventListener('keydown', (event: KeyboardEvent) => {
+            if (event.key === 'Enter') {
+              handleButtonActivation(event);
+            }
+          }, true); // Use capture phase to catch before saf-button handles it
+
+          // Handle Space key: prevent default scrolling in keydown, activate in keyup
+          button.addEventListener('keydown', (event: KeyboardEvent) => {
+            if (event.key === ' ') {
+              event.preventDefault(); // Prevent page scroll
+            }
+          }, true);
+
+          button.addEventListener('keyup', (event: KeyboardEvent) => {
+            if (event.key === ' ') {
+              handleButtonActivation(event);
+            }
           });
 
           container.appendChild(textElement);
@@ -455,6 +467,7 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
   }
 
   closeManageDropdownDialog() {
+    console.log('closeManageDropdownDialog');
     this.isManageDropdownDialogHidden = true;
     // Return focus to the element that opened the modal
     if (this.previousActiveElement) {
