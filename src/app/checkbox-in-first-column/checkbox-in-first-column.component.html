@@ -1,0 +1,40 @@
+<h2>Flexgrid allows checkboxes in first column</h2>
+<wj-flex-grid
+  #grid
+  [deferResizing]="true"
+  [itemsSource]="items"
+  selectionMode="CellRange"
+  [showMarquee]="true"
+  [anchorCursor]="true"
+  [isReadOnly]="false"
+  headersVisibility="All"
+  headersFocusability="All"
+  (initialized)="initGrid(grid)"
+  aria-labelledby="tableHeader-toolbar"
+  aria-describedby="tableDescription-toolbar"
+  data-testid="table-toolbar"
+  style="margin-top: 16px"
+  class="wj-flexsheet saf-flexgrid--compact"
+>
+  <wj-flex-grid-column
+    binding="authorizer"
+    header="Authorizer"
+    [width]="'*'"
+  ></wj-flex-grid-column>
+  <wj-flex-grid-column
+    binding="email"
+    header="Email"
+    [width]="'*'"
+  ></wj-flex-grid-column>
+  <wj-flex-grid-column
+    binding="authorizationStatus"
+    header="Authorization Status"
+    [width]="'*'"
+  ></wj-flex-grid-column>
+  <wj-flex-grid-column
+    binding="validUntil"
+    header="Valid Until"
+    [width]="'*'"
+  ></wj-flex-grid-column>
+</wj-flex-grid>
+

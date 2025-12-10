@@ -30,7 +30,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/@saffron/core-styles/dist/index.css",
+              "node_modules/@saffron/core-styles/dist/wijmo.css"
             ],
             "scripts": []
           },
@@ -100,5 +102,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "ad7fab69-5be6-4bfe-93c5-345a9f214a54"
   }
 }
