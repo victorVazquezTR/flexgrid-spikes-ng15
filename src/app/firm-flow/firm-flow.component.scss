@@ -1,0 +1,261 @@
+.firm-flow-container {
+  padding: 16px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.add-button {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  padding: 8px 40px 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 300px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  color: #666;
+}
+
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.pagination-info {
+  font-size: 14px;
+  color: #666;
+}
+
+.firm-flow-grid {
+  width: 100%;
+}
+
+::ng-deep .wj-flexgrid .wj-cell[aria-selected="true"] {
+  background-color: #4c7aa8 !important;
+  color: white;
+}
+
+.wj-cell {
+  text-align: left;
+  line-height: 40px;
+  height: 40px;
+}
+
+// Override any light blue background colors with white for all cells (except selected)
+::ng-deep .wj-flexgrid .wj-cells .wj-cell {
+  background-color: #ffffff !important;
+}
+
+.edit-icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  color: #666;
+  flex-shrink: 0;
+  width: auto;
+  min-width: 32px;
+}
+
+.edit-icon-button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.edit-icon-button:focus {
+  outline: 2px solid #4c7aa8;
+  outline-offset: 2px;
+  background-color: #e8f0f8;
+  color: #4c7aa8;
+}
+
+.edit-icon-button:active {
+  background-color: #d0d0d0;
+}
+
+// Styles for Field Type dropdown manage option
+::ng-deep .field-type-dropdown .manage-dropdown-option {
+  padding: 0;
+  cursor: pointer;
+}
+
+::ng-deep .field-type-dropdown .manage-dropdown-option:hover {
+  background-color: #f0f0f0;
+}
+
+::ng-deep .field-type-dropdown .wj-listbox-item {
+  padding: 8px 12px;
+}
+
+// Style for Field Type cell button
+::ng-deep .wj-flexgrid .wj-cell .field-type-cell-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color: #666;
+  flex-shrink: 0;
+  width: auto;
+  min-width: 32px;
+  height: 32px;
+}
+
+::ng-deep .wj-flexgrid .wj-cell .field-type-cell-button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+::ng-deep .wj-flexgrid .wj-cell .field-type-cell-button:focus {
+  outline: 2px solid #4c7aa8;
+  outline-offset: 2px;
+  background-color: #e8f0f8;
+  color: #4c7aa8;
+}
+
+::ng-deep .wj-flexgrid .wj-cell .field-type-cell-button:active {
+  background-color: #d0d0d0;
+}
+
+// Style for Field Type cell container
+::ng-deep .wj-flexgrid .wj-cell[data-col="fieldType"] {
+  padding: 0;
+  // Override readonly grey background with white
+  background-color: #ffffff !important;
+}
+
+// Ensure Field Type column header has the same background as other headers
+// This CSS ensures the header cell can be styled to match other headers
+::ng-deep .wj-flexgrid .wj-columnheaders .wj-cell[data-col="fieldType"] {
+  // Allow JavaScript to set the background color, but ensure it can override readonly styles
+  // The background will be set via JavaScript to match the Format column
+}
+
+// Style for ComboBox in drop down field type cells - match other dropdowns (kept for other columns)
+::ng-deep .wj-flexgrid .wj-cell .wj-combobox {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+}
+
+::ng-deep .wj-flexgrid .wj-cell .wj-combobox .wj-input-group {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+::ng-deep .wj-flexgrid .wj-cell .wj-combobox .wj-form-control {
+  border: none;
+  background: transparent;
+  padding: 0;
+  height: 100%;
+  box-shadow: none;
+}
+
+::ng-deep .wj-flexgrid .wj-cell .wj-combobox .wj-form-control:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+// Styles for Manage Dropdown dialog content
+.manage-dropdown-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px 0;
+}
+
+.top-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.add-value-section h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.add-value-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.add-value-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.add-value-button {
+  min-width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox-sort-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sort-by-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.field-types-box {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: white;
+}
+
