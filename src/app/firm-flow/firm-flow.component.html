@@ -7,7 +7,12 @@
       Add
     </saf-button>
     <div class="search-container">
-      <input type="text" placeholder="Search" class="search-input" aria-label="Search fields" />
+      <input
+        type="text"
+        placeholder="Search"
+        class="search-input"
+        aria-label="Search fields"
+      />
       <saf-icon icon-name="search" class="search-icon"></saf-icon>
     </div>
   </div>
@@ -31,84 +36,148 @@
         Delete
       </saf-button>
     </div>
-    <div class="pagination-info">
-      Showing 1 to 10 of 500
-    </div>
+    <div class="pagination-info">Showing 1 to 10 of 500</div>
   </div>
 
-  <wj-flex-grid #grid [itemsSource]="view" [showMarquee]="true" [isReadOnly]="false" [selectionMode]="'CellRange'"
-    [anchorCursor]="true" (initialized)="initGrid(grid)" headersFocusability="All" headersVisibility="All"
-    style="margin-top: 16px" class="wj-flexsheet saf-flexgrid--compact firm-flow-grid">
+  <wj-flex-grid
+    #grid
+    [itemsSource]="view"
+    [showMarquee]="true"
+    [isReadOnly]="false"
+    [selectionMode]="'CellRange'"
+    [anchorCursor]="true"
+    (initialized)="initGrid(grid)"
+    headersFocusability="All"
+    headersVisibility="All"
+    style="margin-top: 16px"
+    class="wj-flexsheet saf-flexgrid--compact firm-flow-grid"
+  >
     <wj-flex-grid-column header="Level" binding="level" [width]="'*'" />
 
-    <wj-flex-grid-column header="Field name" binding="fieldName" [width]="'*'" />
+    <wj-flex-grid-column
+      header="Field name"
+      binding="fieldName"
+      [width]="'*'"
+    />
 
-    <wj-flex-grid-column header="Field type" binding="fieldType" [width]="'*'" />
+    <wj-flex-grid-column
+      header="Field type"
+      binding="fieldType"
+      [width]="'*'"
+    />
 
     <wj-flex-grid-column header="Format" binding="format" [width]="'*'" />
 
-    <wj-flex-grid-column header="Field width" binding="fieldWidth" [width]="'*'" />
+    <wj-flex-grid-column
+      header="Field width"
+      binding="fieldWidth"
+      [width]="'*'"
+    />
 
-    <wj-flex-grid-column header="Max characters" binding="maxCharacters" [width]="'*'" />
+    <wj-flex-grid-column
+      header="Max characters"
+      binding="maxCharacters"
+      [width]="'*'"
+    />
 
-    <wj-flex-grid-column header="Required field" binding="requiredField" [width]="'*'" />
+    <wj-flex-grid-column
+      header="Required field"
+      binding="requiredField"
+      [width]="'*'"
+    />
 
-    <wj-flex-grid-column header="Deactivate" binding="deactivate" [width]="'*'" />
+    <wj-flex-grid-column
+      header="Deactivate"
+      binding="deactivate"
+      [width]="'*'"
+    />
   </wj-flex-grid>
 
-  <saf-dialog [hidden]="isManageDropdownDialogHidden" (dismiss)="closeManageDropdownDialog()"
-    (cancel)="closeManageDropdownDialog()" modal="true" is-alert="false" is-header="true" is-footer="true"
-    dialog-title="Manage Dropdown">
+  <saf-dialog
+    [hidden]="isManageDropdownDialogHidden"
+    (dismiss)="closeManageDropdownDialog()"
+    (cancel)="closeManageDropdownDialog()"
+    modal="true"
+    is-alert="false"
+    is-header="true"
+    is-footer="true"
+    dialog-title="Edit field type"
+  >
     <div class="manage-dropdown-content">
-      <!-- Top buttons -->
-      <div class="top-buttons">
-        <saf-button appearance="tertiary">
-          <saf-icon slot="start" icon-name="arrow-up"></saf-icon>
-          Move up
-        </saf-button>
-        <saf-button appearance="tertiary">
-          <saf-icon slot="start" icon-name="arrow-down"></saf-icon>
-          Move down
-        </saf-button>
-        <saf-button appearance="secondary" style="border-color: #28a745; color: #28a745;">
-          <saf-icon slot="start" icon-name="trash-can"></saf-icon>
-          Delete
-        </saf-button>
-      </div>
-
       <!-- Add Value section -->
       <div class="add-value-section">
-        <h3>Add Value</h3>
-        <div class="add-value-input-group">
-          <input type="text" class="add-value-input" placeholder="" aria-label="Add value" />
-          <saf-button appearance="primary" class="add-value-button">
-            <saf-icon icon-name="add"></saf-icon>
-          </saf-button>
-        </div>
+        <saf-select
+          label="Field type"
+          required
+          name="selectValue"
+          (change)="onFieldTypeChange($event)"
+        >
+          <saf-option value="date">Date</saf-option>
+          <saf-option value="dropdown">Drop down</saf-option>
+          <saf-option value="text">Text</saf-option>
+          <saf-option value="user-dropdown">User drop down</saf-option>
+        </saf-select>
       </div>
 
-      <!-- Checkbox and Sort by section -->
-      <div class="checkbox-sort-section">
-        <saf-checkbox label="Checkbox text label">Select all</saf-checkbox>
+      <div *ngIf="fieldType === 'dropdown'" class="manage-dropdown-content">
+        <saf-text appearance="heading-lg">Manage dropdown values</saf-text>
+
+        <saf-button-embedded>
+          <saf-text-field
+            label="Add value"
+            name="value"
+            required
+          ></saf-text-field>
+          <saf-button icon-only appearance="secondary">
+            <saf-icon icon-name="add" appearance="solid"></saf-icon>
+          </saf-button>
+        </saf-button-embedded>
+        <div class="checkbox-sort-section">
+          <saf-text appearance="heading-md">Dropdown values</saf-text>
+          <saf-checkbox label="Checkbox text label">Select all</saf-checkbox>
+        </div>
+
+        <!-- Field types list -->
+        <div class="field-types-box">
+          <saf-checkbox label="Field type 1">File type 1</saf-checkbox>
+          <saf-checkbox label="Field type 2">File type 2</saf-checkbox>
+          <saf-checkbox label="Field type 3">File type 3</saf-checkbox>
+          <saf-checkbox label="Field type 4">File type 4</saf-checkbox>
+        </div>
+
+        <!-- Bottom buttons -->
+        <div class="bottom-buttons">
+          <saf-button appearance="secondary" disabled>
+            <saf-icon slot="start" icon-name="arrow-up"></saf-icon>
+            Move up
+          </saf-button>
+          <saf-button appearance="secondary" disabled>
+            <saf-icon slot="start" icon-name="arrow-down"></saf-icon>
+            Move down
+          </saf-button>
+          <saf-button appearance="secondary" disabled>
+            <saf-icon slot="start" icon-name="trash-can"></saf-icon>
+            Delete
+          </saf-button>
+        </div>
+
         <div class="sort-by-group">
-          <saf-radio-group label="Sort by" name="sortBy">
-            <saf-radio value="a-to-z" checked label="&#123;A to Z&#125;">A to Z</saf-radio>
-            <saf-radio value="custom" label="&#123;Custom&#125;">Custom</saf-radio>
+          <saf-radio-group label="Sort by" name="sortBy" value="a-to-z">
+            <saf-radio value="a-to-z" [checked]="true">A to Z</saf-radio>
+            <saf-radio value="custom">Custom</saf-radio>
           </saf-radio-group>
         </div>
       </div>
-
-      <!-- Field types list -->
-      <div class="field-types-box">
-        <saf-checkbox label="Field type 1">File type 1</saf-checkbox>
-        <saf-checkbox label="Field type 2">File type 2</saf-checkbox>
-        <saf-checkbox label="Field type 3">File type 3</saf-checkbox>
-        <saf-checkbox label="Field type 4">File type 4</saf-checkbox>
-      </div>
     </div>
 
-    <div slot="footer" style="display: flex; gap: 12px; justify-content: flex-end; width: 100%">
-      <saf-button appearance="secondary" (click)="closeManageDropdownDialog()">Close</saf-button>
+    <div
+      slot="footer"
+      style="display: flex; gap: 12px; justify-content: flex-end; width: 100%"
+    >
+      <saf-button appearance="secondary" (click)="closeManageDropdownDialog()"
+        >Cancel</saf-button
+      >
+      <saf-button appearance="primary">Save</saf-button>
     </div>
   </saf-dialog>
 </div>

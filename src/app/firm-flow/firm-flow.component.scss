@@ -175,10 +175,11 @@
   padding: 16px 0;
 }
 
-.top-buttons {
+.bottom-buttons {
   display: flex;
   gap: 8px;
   align-items: center;
+  margin-bottom: 16px;
 }
 
 .add-value-section h3 {
@@ -231,5 +232,16 @@
   flex-direction: column;
   gap: 12px;
   background-color: white;
+  min-width: 480px;
+  margin-bottom: 8px;
 }
 
+saf-text[appearance="heading-lg"] {
+  margin-top: 12px;
+}
+
+saf-text[appearance="heading-md"] {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+}

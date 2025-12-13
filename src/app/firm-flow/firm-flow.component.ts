@@ -1,15 +1,6 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import * as wijmo from '@mescius/wijmo';
-import {
-  FlexGrid,
-  SelectionMode,
-  CellType,
-} from '@mescius/wijmo.grid';
+import { FlexGrid, SelectionMode, CellType } from '@mescius/wijmo.grid';
 import { Selector } from '@mescius/wijmo.grid.selector';
 import { ComboBox } from '@mescius/wijmo.input';
 import * as wjcGrid from '@mescius/wijmo.angular2.grid';
@@ -38,6 +29,7 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
   selectedItems: string = '';
   items: any;
   view!: wijmo.CollectionView;
+  fieldType = 'text';
   private previousActiveElement: HTMLElement | null = null;
 
   data: FieldConfig[] = [
@@ -176,7 +168,7 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.selector = new Selector(this.grid, {
       itemChecked: () => {
-        this.items = this.grid.rows.filter((r) => r.isSelected);
+        this.items = this.grid.rows.filter(r => r.isSelected);
         const numberItems = this.items.length;
         const fields = numberItems > 1 ? 'fields' : 'field';
         this.selectedItems = `${numberItems} ${fields} selected`;
@@ -222,7 +214,10 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
           // Try Format column first
           const formatCol = s.columns.getColumn('format');
           if (formatCol) {
-            const formatHeaderCell = s.columnHeaders.getCellElement(0, formatCol.index);
+            const formatHeaderCell = s.columnHeaders.getCellElement(
+              0,
+              formatCol.index
+            );
             if (formatHeaderCell) {
               const computedStyle = window.getComputedStyle(formatHeaderCell);
               referenceBgColor = computedStyle.backgroundColor;
@@ -236,9 +231,14 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
               if (otherCol && otherCol.binding !== 'fieldType') {
                 const otherHeaderCell = s.columnHeaders.getCellElement(0, i);
                 if (otherHeaderCell) {
-                  const computedStyle = window.getComputedStyle(otherHeaderCell);
+                  const computedStyle =
+                    window.getComputedStyle(otherHeaderCell);
                   referenceBgColor = computedStyle.backgroundColor;
-                  if (referenceBgColor && referenceBgColor !== 'rgba(0, 0, 0, 0)' && referenceBgColor !== 'transparent') {
+                  if (
+                    referenceBgColor &&
+                    referenceBgColor !== 'rgba(0, 0, 0, 0)' &&
+                    referenceBgColor !== 'transparent'
+                  ) {
                     break;
                   }
                 }
@@ -320,18 +320,26 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
           button.addEventListener('click', handleButtonActivation);
 
           // Add keyboard handler for Enter key (handle immediately)
-          button.addEventListener('keydown', (event: KeyboardEvent) => {
-            if (event.key === 'Enter') {
-              handleButtonActivation(event);
-            }
-          }, true); // Use capture phase to catch before saf-button handles it
+          button.addEventListener(
+            'keydown',
+            (event: KeyboardEvent) => {
+              if (event.key === 'Enter') {
+                handleButtonActivation(event);
+              }
+            },
+            true
+          ); // Use capture phase to catch before saf-button handles it
 
           // Handle Space key: prevent default scrolling in keydown, activate in keyup
-          button.addEventListener('keydown', (event: KeyboardEvent) => {
-            if (event.key === ' ') {
-              event.preventDefault(); // Prevent page scroll
-            }
-          }, true);
+          button.addEventListener(
+            'keydown',
+            (event: KeyboardEvent) => {
+              if (event.key === ' ') {
+                event.preventDefault(); // Prevent page scroll
+              }
+            },
+            true
+          );
 
           button.addEventListener('keyup', (event: KeyboardEvent) => {
             if (event.key === ' ') {
@@ -371,7 +379,7 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
     });
 
     // Assign editors to columns (excluding fieldType)
-    grid.columns.forEach((col) => {
+    grid.columns.forEach(col => {
       if (col.binding === 'level') {
         col.editor = levelCombo;
       } else if (col.binding === 'format') {
@@ -388,8 +396,14 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       const formatCol = grid.columns.getColumn('format');
 
       if (fieldTypeCol && formatCol) {
-        const fieldTypeHeaderCell = grid.columnHeaders.getCellElement(0, fieldTypeCol.index);
-        const formatHeaderCell = grid.columnHeaders.getCellElement(0, formatCol.index);
+        const fieldTypeHeaderCell = grid.columnHeaders.getCellElement(
+          0,
+          fieldTypeCol.index
+        );
+        const formatHeaderCell = grid.columnHeaders.getCellElement(
+          0,
+          formatCol.index
+        );
 
         if (fieldTypeHeaderCell && formatHeaderCell) {
           // Get the computed background color from Format header
@@ -397,7 +411,11 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
           const bgColor = computedStyle.backgroundColor;
 
           // Apply the same background color to Field Type header
-          if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
+          if (
+            bgColor &&
+            bgColor !== 'rgba(0, 0, 0, 0)' &&
+            bgColor !== 'transparent'
+          ) {
             fieldTypeHeaderCell.style.backgroundColor = bgColor;
           }
         }
@@ -460,7 +478,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
     grid.updatedView.addHandler(() => {
       setTimeout(syncAllCellsBackground, 0);
     });
-
   }
 
   openManageDropdownDialog() {
@@ -478,5 +495,8 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       }, 100);
     }
   }
-}
 
+  onFieldTypeChange(event: any) {
+    this.fieldType = event.target.value;
+  }
+}

@@ -9,6 +9,10 @@ import {
   SafRadio,
   SafRadioGroup,
   SafText,
+  SafOption,
+  SafSelect,
+  SafTextField,
+  SafButtonEmbedded
 } from '@saffron/core-components';
 @Component({
   selector: 'app-root',
@@ -27,5 +31,9 @@ export class AppComponent {
     SafRadio();
     SafRadioGroup();
     SafText();
+    SafOption();
+    SafSelect();
+    SafTextField();
+    SafButtonEmbedded();
   }
 }
