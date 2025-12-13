@@ -360,7 +360,7 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
 
     // Validate input to prevent XSS and ensure only valid values are accepted
     if (value && this.validFieldTypes.includes(value)) {
-      this.fieldType = value as typeof this.fieldType;
+      this.fieldType = value;
     } else {
       // Reset to default if invalid value is provided
       this.fieldType = 'text';
