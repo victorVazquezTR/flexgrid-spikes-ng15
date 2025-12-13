@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import * as wijmo from '@mescius/wijmo';
 import { FlexGrid, SelectionMode } from '@mescius/wijmo.grid';
+import { Selector } from '@mescius/wijmo.grid.selector';
 import { ComboBox } from '@mescius/wijmo.input';
 import * as wjcGrid from '@mescius/wijmo.angular2.grid';
 
@@ -22,10 +23,28 @@ interface FieldConfig {
 })
 export class FirmFlowComponent implements OnInit, AfterViewInit {
   @ViewChild('grid', { static: true }) grid!: FlexGrid;
-  selector: any;
+  selector!: Selector;
   view!: wijmo.CollectionView;
   fieldType = 'text';
   private previousActiveElement: HTMLElement | null = null;
+
+  // Valid field type values for input validation
+  private readonly validFieldTypes: readonly string[] = [
+    'text',
+    'date',
+    'dropdown',
+    'user-dropdown',
+  ];
+
+  /**
+   * Check if running in production environment
+   * @private
+   */
+  private isProduction(): boolean {
+    return (
+      typeof window !== 'undefined' && window.location.hostname !== 'localhost'
+    );
+  }
 
   data: FieldConfig[] = [
     {
@@ -143,7 +162,14 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.selector.column.width = 52;
+    this.selector = new Selector(this.grid, {
+      itemChecked: () => {
+        // Selector callback - can be extended if needed
+      },
+    });
+    if (this.selector.column) {
+      this.selector.column.width = 52;
+    }
     this.selector.showCheckAll = false;
   }
 
@@ -203,7 +229,8 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
         const isSelected = cell.getAttribute('aria-selected') === 'true';
         if (!isSelected) {
           // Set white background for all non-selected cells
-          cell.style.backgroundColor = '#ffffff';
+          // Using CSS variable for consistency and security
+          cell.style.backgroundColor = 'var(--saf-color-background-default)';
         }
 
         if (col && col.binding === 'fieldType') {
@@ -223,9 +250,12 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
           container.style.height = '100%';
           container.style.padding = '0 8px';
 
-          // Create text element
+          // Create text element - use textContent to prevent XSS
           const textElement = document.createElement('span');
-          textElement.textContent = value || '';
+          // Sanitize value: ensure it's a string and escape any potential HTML
+          const sanitizedValue =
+            typeof value === 'string' ? value : String(value || '');
+          textElement.textContent = sanitizedValue;
           textElement.style.flex = '1';
           textElement.style.overflow = 'hidden';
           textElement.style.textOverflow = 'ellipsis';
@@ -324,7 +354,20 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onFieldTypeChange(event: any) {
-    this.fieldType = event.target.value;
+  onFieldTypeChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const value = target?.value;
+
+    // Validate input to prevent XSS and ensure only valid values are accepted
+    if (value && this.validFieldTypes.includes(value)) {
+      this.fieldType = value as typeof this.fieldType;
+    } else {
+      // Reset to default if invalid value is provided
+      this.fieldType = 'text';
+      // Log security warning in development only
+      if (!this.isProduction()) {
+        console.warn('Invalid field type value rejected:', value);
+      }
+    }
   }
 }
