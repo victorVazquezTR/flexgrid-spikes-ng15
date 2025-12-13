@@ -49,7 +49,6 @@
     (initialized)="initGrid(grid)"
     headersFocusability="All"
     headersVisibility="All"
-    style="margin-top: 16px"
     class="wj-flexsheet saf-flexgrid--compact firm-flow-grid"
   >
     <wj-flex-grid-column header="Level" binding="level" [width]="'*'" />
@@ -97,6 +96,7 @@
     [hidden]="isManageDropdownDialogHidden"
     (dismiss)="closeManageDropdownDialog()"
     (cancel)="closeManageDropdownDialog()"
+    (close)="closeManageDropdownDialog()"
     modal="true"
     is-alert="false"
     is-header="true"
@@ -170,10 +170,7 @@
       </div>
     </div>
 
-    <div
-      slot="footer"
-      style="display: flex; gap: 12px; justify-content: flex-end; width: 100%"
-    >
+    <div slot="footer" class="dialog-footer">
       <saf-button appearance="secondary" (click)="closeManageDropdownDialog()"
         >Cancel</saf-button
       >
