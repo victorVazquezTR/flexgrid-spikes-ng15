@@ -23,10 +23,10 @@
 .search-input {
   padding: var(--saf-spacing-2) var(--saf-spacing-10) var(--saf-spacing-2)
     var(--saf-spacing-3);
-  border: 1px solid var(--saf-color-border-subtle);
+  border: var(--saf-line-width-thin) solid var(--saf-color-border-subtle);
   border-radius: var(--saf-border-radius-xs);
   font-size: var(--saf-font-size-sm);
-  width: 300px;
+  width: calc(var(--saf-spacing-20) * 3 + var(--saf-spacing-15));
 }
 
 .search-icon {
@@ -59,7 +59,7 @@
 }
 
 ::ng-deep .wj-flexgrid .wj-cell[aria-selected="true"] {
-  background-color: var(--flexgrid-color-background-header, #DAE4ED) !important;
+  background-color: var(--saf-flexgrid-color-background-header) !important;
   color: var(--saf-color-text-knockout);
 }
 
@@ -74,50 +74,8 @@
   background-color: var(--saf-color-background-default) !important;
 }
 
-.edit-icon-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: var(--saf-spacing-1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--saf-border-radius-xs);
-  transition: background-color 0.2s ease;
-  color: var(--saf-color-text-subtle);
-  flex-shrink: 0;
-  width: auto;
-  min-width: var(--saf-spacing-8);
-}
-
-.edit-icon-button:hover {
-  background-color: var(--saf-color-interactive-background-strong);
-  color: var(--saf-color-text-strong);
-}
-
-.edit-icon-button:focus {
-  outline: var(--saf-spacing-05) solid var(--flexgrid-color-background-header, #DAE4ED);
-  outline-offset: var(--saf-spacing-05);
-  background-color: var(--saf-color-interactive-states-background-hover);
-  color: var(--flexgrid-color-background-header, #DAE4ED);
-}
-
-.edit-icon-button:active {
-  background-color: var(--saf-color-interactive-background-stronger);
-}
-
-// Styles for Field Type dropdown manage option
-::ng-deep .field-type-dropdown .manage-dropdown-option {
+::ng-deep .wj-flexgrid .wj-cells .wj-cell[aria-colindex="4"] {
   padding: var(--saf-spacing-0);
-  cursor: pointer;
-}
-
-::ng-deep .field-type-dropdown .manage-dropdown-option:hover {
-  background-color: var(--saf-color-interactive-background-strong);
-}
-
-::ng-deep .field-type-dropdown .wj-listbox-item {
-  padding: var(--saf-spacing-2) var(--saf-spacing-3);
 }
 
 // Style for Field Type cell button (saf-button)
@@ -133,13 +91,6 @@
   padding: var(--saf-spacing-0);
   // Override readonly grey background with white
   background-color: var(--saf-color-background-default) !important;
-}
-
-// Ensure Field Type column header has the same background as other headers
-// This CSS ensures the header cell can be styled to match other headers
-::ng-deep .wj-flexgrid .wj-columnheaders .wj-cell[data-col="fieldType"] {
-  // Allow JavaScript to set the background color, but ensure it can override readonly styles
-  // The background will be set via JavaScript to match the Format column
 }
 
 // Style for ComboBox in drop down field type cells - match other dropdowns (kept for other columns)
@@ -175,45 +126,24 @@
   flex-direction: column;
   gap: var(--saf-spacing-5);
   padding: var(--saf-spacing-4) var(--saf-spacing-0);
-  min-width: 480px;
+  min-width: calc(var(--saf-spacing-24) * 5);
 }
 
 .bottom-buttons {
   display: flex;
-  gap: var(--saf-spacing-2);
+  gap: var(--saf-spacing-3);
   align-items: center;
   margin-bottom: var(--saf-spacing-4);
 }
 
-.add-value-section h3 {
-  margin: var(--saf-spacing-0) var(--saf-spacing-0) var(--saf-spacing-3)
-    var(--saf-spacing-0);
-  font-size: var(--saf-font-size-md);
-  font-weight: var(--saf-font-weight-semibold);
+.bottom-buttons saf-button, .bottom-buttons saf-button::part(control) {
+  width: 100% 
 }
 
-.add-value-input-group {
-  display: flex;
-  gap: var(--saf-spacing-2);
-  align-items: center;
+saf-radio::part(root) {
+  margin-right: var(--saf-spacing-24);
 }
 
-.add-value-input {
-  flex: 1;
-  padding: var(--saf-spacing-2) var(--saf-spacing-3);
-  border: 1px solid var(--saf-color-border-subtle);
-  border-radius: var(--saf-border-radius-xs);
-  font-size: var(--saf-font-size-sm);
-}
-
-.add-value-button {
-  min-width: var(--saf-spacing-10);
-  height: var(--saf-spacing-10);
-  padding: var(--saf-spacing-0);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .checkbox-sort-section {
   display: flex;
@@ -226,17 +156,24 @@
   display: flex;
   align-items: center;
   gap: var(--saf-spacing-3);
+
+  ::ng-deep saf-radio-group {
+    display: flex;
+    align-items: center;
+    gap: var(--saf-spacing-24);
+  }
 }
 
 .field-types-box {
-  border: 1px solid var(--saf-color-border-subtle);
-  border-radius: var(--saf-border-radius-xs);
+  border-radius: var(--saf-border-radius-sm);
+  border: var(--saf-line-width-thin) solid var(--saf-color-border-stronger);
   padding: var(--saf-spacing-4);
   display: flex;
   flex-direction: column;
   gap: var(--saf-spacing-3);
   background-color: var(--saf-color-background-default);
   margin-bottom: var(--saf-spacing-2);
+  min-height: calc(var(--saf-spacing-24) + var(--saf-spacing-13));
 }
 
 saf-text[appearance="heading-lg"] {

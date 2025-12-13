@@ -1,12 +1,10 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import * as wijmo from '@mescius/wijmo';
-import { FlexGrid, SelectionMode, CellType } from '@mescius/wijmo.grid';
-import { Selector } from '@mescius/wijmo.grid.selector';
+import { FlexGrid, SelectionMode } from '@mescius/wijmo.grid';
 import { ComboBox } from '@mescius/wijmo.input';
 import * as wjcGrid from '@mescius/wijmo.angular2.grid';
 
 interface FieldConfig {
-  id?: number;
   level: string;
   fieldName: string;
   fieldType: string;
@@ -15,7 +13,6 @@ interface FieldConfig {
   maxCharacters: number;
   requiredField: boolean;
   deactivate: boolean;
-  selected: boolean;
 }
 
 @Component({
@@ -26,8 +23,6 @@ interface FieldConfig {
 export class FirmFlowComponent implements OnInit, AfterViewInit {
   @ViewChild('grid', { static: true }) grid!: FlexGrid;
   selector: any;
-  selectedItems: string = '';
-  items: any;
   view!: wijmo.CollectionView;
   fieldType = 'text';
   private previousActiveElement: HTMLElement | null = null;
@@ -42,7 +37,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       maxCharacters: 100,
       requiredField: false,
       deactivate: false,
-      selected: false,
     },
     {
       level: 'Workflow',
@@ -53,7 +47,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       maxCharacters: 100,
       requiredField: false,
       deactivate: false,
-      selected: false,
     },
     {
       level: 'Workflow',
@@ -64,7 +57,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       maxCharacters: 100,
       requiredField: false,
       deactivate: false,
-      selected: false,
     },
     {
       level: 'Workflow',
@@ -75,7 +67,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       maxCharacters: 100,
       requiredField: false,
       deactivate: false,
-      selected: false,
     },
     {
       level: 'Workflow',
@@ -86,7 +77,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       maxCharacters: 100,
       requiredField: false,
       deactivate: false,
-      selected: false,
     },
     {
       level: 'Workflow',
@@ -97,7 +87,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       maxCharacters: 100,
       requiredField: false,
       deactivate: false,
-      selected: false,
     },
     {
       level: 'Folder',
@@ -108,7 +97,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       maxCharacters: 100,
       requiredField: false,
       deactivate: false,
-      selected: false,
     },
     {
       level: 'Folder',
@@ -119,7 +107,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       maxCharacters: 100,
       requiredField: false,
       deactivate: false,
-      selected: false,
     },
     {
       level: 'Workflow',
@@ -130,7 +117,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       maxCharacters: 100,
       requiredField: false,
       deactivate: false,
-      selected: false,
     },
     {
       level: 'Workflow',
@@ -141,20 +127,11 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       maxCharacters: 100,
       requiredField: false,
       deactivate: false,
-      selected: false,
     },
   ];
 
-  levelOptions = ['Folder', 'Workflow'];
-  fieldTypeOptions = ['Text', 'Date', 'User Dropdown', 'Dropdown'];
-  formatOptions: string[] = []; // Can be populated later
-
   // Action options for dropdowns
   actionOptions = ['Edit', 'Move up', 'Move down', 'Delete'];
-
-  // Field type options with separator and manage option
-  fieldTypeDropdownOptions = ['Text', 'Date', 'User Dropdown', 'Dropdown'];
-  manageDropdownOption = 'Manage dropdown';
 
   // Dialog state
   isManageDropdownDialogHidden = true;
@@ -166,15 +143,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.selector = new Selector(this.grid, {
-      itemChecked: () => {
-        this.items = this.grid.rows.filter(r => r.isSelected);
-        const numberItems = this.items.length;
-        const fields = numberItems > 1 ? 'fields' : 'field';
-        this.selectedItems = `${numberItems} ${fields} selected`;
-      },
-    });
-
     this.selector.column.width = 52;
     this.selector.showCheckAll = false;
   }
@@ -192,9 +160,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       dropDownCssClass: 'action-dropdown',
     });
 
-    // Field Type column now uses text + button instead of dropdown
-    // Removed fieldTypeCombo initialization as it's no longer needed
-
     const formatCombo = new ComboBox(document.createElement('div'), {
       itemsSource: this.actionOptions,
       isEditable: false,
@@ -211,7 +176,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
           // Try to find any other header that's already rendered to get its background color
           let referenceBgColor: string | null = null;
 
-          // Try Format column first
           const formatCol = s.columns.getColumn('format');
           if (formatCol) {
             const formatHeaderCell = s.columnHeaders.getCellElement(
@@ -221,28 +185,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
             if (formatHeaderCell) {
               const computedStyle = window.getComputedStyle(formatHeaderCell);
               referenceBgColor = computedStyle.backgroundColor;
-            }
-          }
-
-          // If Format header not available, try any other column
-          if (!referenceBgColor) {
-            for (let i = 0; i < s.columns.length; i++) {
-              const otherCol = s.columns[i];
-              if (otherCol && otherCol.binding !== 'fieldType') {
-                const otherHeaderCell = s.columnHeaders.getCellElement(0, i);
-                if (otherHeaderCell) {
-                  const computedStyle =
-                    window.getComputedStyle(otherHeaderCell);
-                  referenceBgColor = computedStyle.backgroundColor;
-                  if (
-                    referenceBgColor &&
-                    referenceBgColor !== 'rgba(0, 0, 0, 0)' &&
-                    referenceBgColor !== 'transparent'
-                  ) {
-                    break;
-                  }
-                }
-              }
             }
           }
 
@@ -354,30 +296,6 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
       }
     });
 
-    // Use prepareCellForEdit to set up editors when editing starts
-    grid.prepareCellForEdit.addHandler((s, e) => {
-      const col = s.columns[e.col];
-      if (!col) return;
-
-      let combo: ComboBox | null = null;
-
-      if (col.binding === 'level') {
-        combo = levelCombo;
-      } else if (col.binding === 'format') {
-        combo = formatCombo;
-      }
-
-      if (combo) {
-        // Set the current value from the cell
-        const currentValue = s.getCellData(e.row, e.col, false);
-        if (currentValue !== null && currentValue !== undefined) {
-          combo.text = String(currentValue);
-        } else {
-          combo.text = '';
-        }
-      }
-    });
-
     // Assign editors to columns (excluding fieldType)
     grid.columns.forEach(col => {
       if (col.binding === 'level') {
@@ -389,99 +307,9 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
         col.isReadOnly = true;
       }
     });
-
-    // Function to sync Field Type header background with other headers
-    const syncFieldTypeHeaderBackground = () => {
-      const fieldTypeCol = grid.columns.getColumn('fieldType');
-      const formatCol = grid.columns.getColumn('format');
-
-      if (fieldTypeCol && formatCol) {
-        const fieldTypeHeaderCell = grid.columnHeaders.getCellElement(
-          0,
-          fieldTypeCol.index
-        );
-        const formatHeaderCell = grid.columnHeaders.getCellElement(
-          0,
-          formatCol.index
-        );
-
-        if (fieldTypeHeaderCell && formatHeaderCell) {
-          // Get the computed background color from Format header
-          const computedStyle = window.getComputedStyle(formatHeaderCell);
-          const bgColor = computedStyle.backgroundColor;
-
-          // Apply the same background color to Field Type header
-          if (
-            bgColor &&
-            bgColor !== 'rgba(0, 0, 0, 0)' &&
-            bgColor !== 'transparent'
-          ) {
-            fieldTypeHeaderCell.style.backgroundColor = bgColor;
-          }
-        }
-      }
-    };
-
-    // Ensure Field Type header has the same background as other headers
-    // Use setTimeout to ensure all headers are rendered
-    setTimeout(syncFieldTypeHeaderBackground, 0);
-
-    // Also sync when the grid is refreshed/updated
-    grid.updatedView.addHandler(() => {
-      setTimeout(syncFieldTypeHeaderBackground, 0);
-    });
-
-    // Function to ensure all Field Type cells have white background
-    const syncFieldTypeCellsBackground = () => {
-      const fieldTypeCol = grid.columns.getColumn('fieldType');
-
-      if (fieldTypeCol) {
-        // Iterate through all rows and set white background for Field Type cells
-        for (let row = 0; row < grid.rows.length; row++) {
-          const cell = grid.cells.getCellElement(row, fieldTypeCol.index);
-          if (cell) {
-            cell.style.backgroundColor = '#ffffff';
-          }
-        }
-      }
-    };
-
-    // Ensure Field Type cells have white background
-    setTimeout(syncFieldTypeCellsBackground, 0);
-
-    // Also sync when the grid is refreshed/updated
-    grid.updatedView.addHandler(() => {
-      setTimeout(syncFieldTypeCellsBackground, 0);
-    });
-
-    // Function to ensure all cells have white background (override light blue)
-    const syncAllCellsBackground = () => {
-      // Iterate through all rows and columns to set white background
-      for (let row = 0; row < grid.rows.length; row++) {
-        for (let col = 0; col < grid.columns.length; col++) {
-          const cell = grid.cells.getCellElement(row, col);
-          if (cell) {
-            // Only set white if not selected (selected cells keep their selection color)
-            const isSelected = cell.getAttribute('aria-selected') === 'true';
-            if (!isSelected) {
-              cell.style.backgroundColor = '#ffffff';
-            }
-          }
-        }
-      }
-    };
-
-    // Ensure all cells have white background (override light blue)
-    setTimeout(syncAllCellsBackground, 0);
-
-    // Also sync when the grid is refreshed/updated
-    grid.updatedView.addHandler(() => {
-      setTimeout(syncAllCellsBackground, 0);
-    });
   }
 
   openManageDropdownDialog() {
-    // Always open the dialog, reset state first to ensure it opens
     this.isManageDropdownDialogHidden = false;
   }
 
