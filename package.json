@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "deploy": "ng deploy --base-href=https://github.com/victorVazquezTR/flexgrid-spikes-ng15/",
+    "build:prod": "ng build --configuration production --base-href=/flexgrid-spikes-ng15/",
+    "deploy": "gh-pages -d dist/flexgrid-spikes-ng15",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -31,6 +32,7 @@
     "@angular/cli": "~15.2.0",
     "@angular/compiler-cli": "^15.2.0",
     "@types/jasmine": "~4.3.0",
+    "gh-pages": "^6.3.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",

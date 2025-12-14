@@ -175,7 +175,7 @@ export class FirmFlowComponent implements OnInit, AfterViewInit {
 
   initGrid(grid: wjcGrid.WjFlexGrid) {
     grid.columnHeaders.rows.defaultSize = 48;
-    grid.rows.defaultSize = 40;
+    grid.rows.defaultSize = 48;
     grid.selectionMode = SelectionMode.Cell;
 
     // Set up ComboBox editors for Level, Field Type, and Format columns

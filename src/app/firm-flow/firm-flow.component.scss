@@ -61,17 +61,29 @@
 ::ng-deep .wj-flexgrid .wj-cell[aria-selected="true"] {
   background-color: var(--saf-flexgrid-color-background-header) !important;
   color: var(--saf-color-text-knockout);
+  display: flex;
+  align-items: center;
+}
+
+// Center header cells vertically
+::ng-deep .wj-flexgrid .wj-header .wj-cell {
+  display: flex;
+  align-items: center;
 }
 
 .wj-cell {
   text-align: left;
-  line-height: var(--saf-spacing-10);
-  height: var(--saf-spacing-10);
+  line-height: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 // Override any light blue background colors with white for all cells (except selected)
 ::ng-deep .wj-flexgrid .wj-cells .wj-cell {
   background-color: var(--saf-color-background-default) !important;
+  display: flex;
+  align-items: center;
 }
 
 ::ng-deep .wj-flexgrid .wj-cells .wj-cell[aria-colindex="4"] {
@@ -91,6 +103,8 @@
   padding: var(--saf-spacing-0);
   // Override readonly grey background with white
   background-color: var(--saf-color-background-default) !important;
+  display: flex;
+  align-items: center;
 }
 
 // Style for ComboBox in drop down field type cells - match other dropdowns (kept for other columns)
