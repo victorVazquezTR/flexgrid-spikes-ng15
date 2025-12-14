@@ -1,3 +1,5 @@
-<a *ngIf="route.url !== '/'" class="link-back" href="/">Back to all spikes</a>
+<a *ngIf="route.url !== '/'" class="link-back" href="#" (click)="goBack()"
+  >Back to all spikes</a
+>
 <h1>Flexgrid Spikes NG 15</h1>
 <router-outlet></router-outlet>
